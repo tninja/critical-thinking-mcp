@@ -6,6 +6,7 @@ A dual-perspective thinking analysis server based on Model Context Protocol (MCP
   <img width="380" height="200" src="https://glama.ai/mcp/servers/@aquarius-wing/actor-critic-thinking-mcp/badge" alt="Actor-Critic Thinking Server MCP server" />
 </a>
 
+<<<<<<< HEAD
 ## Showcase
 
 ![demo1-with-thinking.png](/assets/demo1-with-thinking.png)
@@ -32,6 +33,8 @@ A dual-perspective thinking analysis server based on Model Context Protocol (MCP
 - Performance reviews that need both self-reflection and external evaluation
 - Creative processes that benefit from iterative refinement
 
+=======
+>>>>>>> 9528200 (Remove Showcase section and demo images from README.md)
 ## Parameters
 
 ### Required Parameters
