@@ -1,34 +1,6 @@
 # Critical Thinking MCP Server
 
-A dual-perspective thinking analysis server based on Model Context Protocol (MCP), providing comprehensive performance evaluation through Actor-Critic methodology.
-
-<a href="https://glama.ai/mcp/servers/@aquarius-wing/critical-thinking-mcp">
-  <img width="380" height="200" src="https://glama.ai/mcp/servers/@aquarius-wing/critical-thinking-mcp/badge" alt="Critical Thinking Server MCP server" />
-</a>
-
-## Parameters
-
-### Required Parameters
-
-- `content` (string): Current analysis content from the specified role perspective
-- `role` (string): Perspective role, options:
-  - `"actor"`: Actor perspective (empathetic/creative viewpoint)
-  - `"critic"`: Critic perspective (analytical/evaluative viewpoint)
-- `nextRoundNeeded` (boolean): Whether another round of actor-critic dialogue is needed
-- `thoughtNumber` (integer): Current thought number in the sequence (minimum: 1)
-- `totalThoughts` (integer): Total number of thoughts planned (must be odd and >= 3)
-
-### Role Perspective Guidelines
-
-**Actor perspective should include:**
-- Understanding intentions, creative choices, emotional context, challenges faced
-- Self-reflection on performance and decision-making process
-- Explanation of creative vision and goals
-
-**Critic perspective should include:**
-- Technical execution analysis, effectiveness evaluation
-- Audience impact assessment, comparative analysis
-- Objective feedback and improvement suggestions
+A dual-perspective thinking analysis server based on Model Context Protocol (MCP), providing comprehensive performance evaluation through Actor-Critic methodology integrated with [Critical Thinking](https://en.wikipedia.org/wiki/Critical_thinking) best practices.
 
 ## How to use
 
@@ -39,8 +11,8 @@ A dual-perspective thinking analysis server based on Model Context Protocol (MCP
 ```json
 {
   "mcpServers": {
-    "critical-thinking": { 
-      "command": "node", 
+    "critical-thinking": {
+      "command": "node",
       "args": [
         "<path>/critical-thinking-mcp/dist/index.js"
       ],
@@ -50,32 +22,53 @@ A dual-perspective thinking analysis server based on Model Context Protocol (MCP
 }
 ```
 
-## Installation and Running
+## Critical Thinking Framework
 
-```bash
-# Build the project
-npm run build
+This server implements a dialectical process using two core components of critical thinking:
 
-# Run the server
-node dist/index.js
-```
+### 1. Elements of Thought (The 'Actor's Guide')
+The **Actor** (performer/creator) uses these elements to articulate their position:
+- **Purpose**: What is the goal of this action or decision?
+- **Question at Issue**: What specific problem is being addressed?
+- **Information/Evidence**: What data or facts are being used?
+- **Assumptions**: What is being taken for granted?
+- **Concepts**: What theories or definitions govern this thinking?
+- **Inferences**: What interpretations are being made?
+- **Implications**: What happens if this line of thought is followed?
+- **Points of View**: From what perspective are we looking at this?
 
-## Example Usage
+### 2. Universal Intellectual Standards (The 'Critic's Checklist')
+The **Critic** (evaluator/analyst) evaluates the Actor's input against these standards:
+- **Clarity**: Is the point stated clearly?
+- **Accuracy**: Is the claim true and verifiable?
+- **Precision**: Are enough specific details provided?
+- **Relevance**: How does this relate to the core problem?
+- **Depth**: Does it address the complexities?
+- **Breadth**: Are other perspectives considered?
+- **Logic**: Does the conclusion follow from the premises?
+- **Significance**: Is this the most important factor?
+- **Fairness**: Is the assessment unbiased and empathetic?
 
-System prompt:
+## Parameters
 
-> Your task is to generate creative, memorable, and marketable product names based on the provided description and keywords. The product names should be concise (2-4 words), evocative, and easily understood by the target audience. Avoid generic or overly literal names. Instead, aim to create a name that stands out, captures the essence of the product, and leaves a lasting impression.
+### Required Parameters
 
-User prompt:
+- `content` (string): Current analysis content from the specified role perspective.
+- `role` (string): Perspective role: `"actor"` (creative/empathetic) or `"critic"` (analytical/evaluative).
+- `nextRoundNeeded` (boolean): Whether another round of actor-critic dialogue is needed.
+- `thoughtNumber` (integer): Current thought number in the sequence (starts at 1).
+- `totalThoughts` (integer): Total planned thoughts (must be **odd** and **>= 3**).
 
-> Description: A noise-canceling, wireless, over-ear headphone with a 20-hour battery life and touch controls. Designed for audiophiles and frequent travelers. Keywords: immersive, comfortable, high-fidelity, long-lasting, convenient
+### Optional Parameters (Critical Thinking Metadata)
+
+- `assumptions` (string[]): Key assumptions being made in this thought.
+- `evidence` (string[]): Data, facts, or observations supporting this thought.
+- `standardsApplied` (string[]): Intellectual standards (e.g., Clarity, Logic) applied (primarily for Critics).
 
 ## Best Practices
 
-1. Start with either actor or critic perspective
-2. Alternate between perspectives to maintain balance
-3. Continue rounds until comprehensive analysis is achieved
-4. Focus on relevant performance aspects
-5. Generate balanced assessments that honor both perspectives
-6. Provide constructive, actionable feedback
-7. Only set `nextRoundNeeded` to false when analysis is complete
+1. **Dialectical Iteration**: Always alternate between Actor and Critic roles to foster a self-correcting dialogue.
+2. **Explicit Evidence**: Use the `evidence` and `assumptions` parameters to make the underlying logic transparent.
+3. **Apply Standards**: Critics should explicitly state which Intellectual Standards they are using to evaluate the Actor's work.
+4. **Depth over Speed**: Don't rush to set `nextRoundNeeded` to false. Ensure the analysis has reached a robust, multi-dimensional consensus.
+5. **Odd Thought Totals**: Always plan for an odd number of total thoughts to ensure a balanced sequence (e.g., Actor -> Critic -> Actor/Final Synthesis).
