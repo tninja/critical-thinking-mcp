@@ -1,16 +1,16 @@
-# Actor-Critic Thinking MCP Server
+# Critical Thinking MCP Server
 
 A dual-perspective thinking analysis server based on Model Context Protocol (MCP), providing comprehensive performance evaluation through Actor-Critic methodology.
 
-<a href="https://glama.ai/mcp/servers/@aquarius-wing/actor-critic-thinking-mcp">
-  <img width="380" height="200" src="https://glama.ai/mcp/servers/@aquarius-wing/actor-critic-thinking-mcp/badge" alt="Actor-Critic Thinking Server MCP server" />
+<a href="https://glama.ai/mcp/servers/@aquarius-wing/critical-thinking-mcp">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@aquarius-wing/critical-thinking-mcp/badge" alt="Critical Thinking Server MCP server" />
 </a>
 
 ## Showcase
 
 ![demo1-with-thinking.png](/assets/demo1-with-thinking.png)
 
-### Without Actor-Critic Thinking
+### Without Critical Thinking
 
 ![demo1-without-thinking.png](/assets/demo1-without-thinking.png)
 
@@ -65,10 +65,10 @@ A dual-perspective thinking analysis server based on Model Context Protocol (MCP
 ```json
 {
   "mcpServers": {
-    "actor-critic-thinking": { 
+    "critical-thinking": { 
       "command": "node", 
       "args": [
-        "<path>/actor-critic-thinking-mcp/dist/index.js"
+        "<path>/critical-thinking-mcp/dist/index.js"
       ],
       "env": {}
     }

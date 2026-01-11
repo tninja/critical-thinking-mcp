@@ -1,13 +1,13 @@
 {
-  "name": "mcp-server-actor-critic-thinking",
+  "name": "mcp-server-critical-thinking",
   "version": "1.0.0",
-  "description": "MCP server for actor-critic dual perspective thinking and analysis",
+  "description": "MCP server for critical thinking and analysis using actor-critic methodology",
   "license": "MIT",
   "author": "Aquarius Wing",
   "bugs": "https://github.com/aquarius-wing/actor-critic-thinking-mcp/issues",
   "type": "module",
   "bin": {
-    "mcp-server-actor-critic-thinking": "dist/index.js"
+    "mcp-server-critical-thinking": "dist/index.js"
   },
   "files": [
     "dist"
