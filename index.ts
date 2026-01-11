@@ -16,6 +16,10 @@ interface ActorCriticThoughtData {
   nextRoundNeeded: boolean;
   thoughtNumber: number;
   totalThoughts: number;
+  // Critical Thinking Elements
+  assumptions?: string[];
+  evidence?: string[];
+  standardsApplied?: string[];
 }
 
 class ActorCriticThinkingServer {
@@ -53,34 +57,47 @@ class ActorCriticThinkingServer {
       nextRoundNeeded: data.nextRoundNeeded,
       thoughtNumber: data.thoughtNumber,
       totalThoughts: data.totalThoughts,
+      assumptions: Array.isArray(data.assumptions) ? data.assumptions as string[] : undefined,
+      evidence: Array.isArray(data.evidence) ? data.evidence as string[] : undefined,
+      standardsApplied: Array.isArray(data.standardsApplied) ? data.standardsApplied as string[] : undefined,
     };
   }
 
   private formatThought(thoughtData: ActorCriticThoughtData): string {
-    const { thoughtNumber, content, role } = thoughtData;
+    const { thoughtNumber, content, role, assumptions, evidence, standardsApplied } = thoughtData;
 
     let prefix = '';
-    let roleIcon = '';
     let roleColor = chalk.blue;
 
     if (role === 'actor') {
       prefix = '🎭 Actor';
-      roleIcon = '🎭';
       roleColor = chalk.green;
     } else {
       prefix = '🔍 Critic';
-      roleIcon = '🔍';
       roleColor = chalk.yellow;
     }
 
     const header = roleColor(`${prefix} - Round ${Math.ceil(thoughtNumber / 2)} (Thought ${thoughtNumber})`);
-    const border = '─'.repeat(Math.max(header.length, content.length) + 4);
+    
+    let extraInfo = '';
+    if (assumptions && assumptions.length > 0) {
+      extraInfo += `\n${chalk.dim('  ↳ Assumptions:')} ${chalk.italic(assumptions.join(', '))}`;
+    }
+    if (evidence && evidence.length > 0) {
+      extraInfo += `\n${chalk.dim('  ↳ Evidence:')} ${chalk.cyan(evidence.join(', '))}`;
+    }
+    if (standardsApplied && standardsApplied.length > 0) {
+      extraInfo += `\n${chalk.dim('  ↳ Standards Applied:')} ${chalk.magenta(standardsApplied.join(', '))}`;
+    }
+
+    const fullContent = content + extraInfo;
+    const border = '─'.repeat(Math.min(100, Math.max(header.length, content.split('\n')[0].length) + 4));
 
     return `
 ┌${border}┐
 │ ${header} │
 ├${border}┤
-│ ${content.padEnd(border.length - 2)} │
+│ ${content} │${extraInfo ? '\n├' + border + '┤' + extraInfo : ''}
 └${border}┘`;
   }
 
@@ -134,52 +151,39 @@ class ActorCriticThinkingServer {
 
 const ACTOR_CRITIC_THINKING_TOOL: Tool = {
   name: "actor-critic-thinking",
-  description: `A sophisticated tool for dual-perspective performance analysis through actor-critic methodology.
-This tool enables comprehensive evaluation of performances, creative works, or decisions by embodying both the performer's mindset and the critic's analytical perspective.
-Each thought alternates between actor (creative/experiential) and critic (analytical/evaluative) viewpoints, creating a balanced assessment.
+  description: `A sophisticated tool for dual-perspective analysis enhanced with Critical Thinking Best Practices.
+This tool implements the Actor-Critic methodology integrated with Universal Intellectual Standards and Elements of Thought.
+Each thought alternates between 'Actor' (performer/creator) and 'Critic' (evaluator/analyst), fostering a dialectical process that minimizes bias and maximizes logical depth.
 
-When to use this tool:
-- Evaluating artistic performances, creative works, or strategic decisions
-- Analyzing the gap between intention and execution
-- Providing constructive feedback that considers both creative vision and technical execution
-- Reviewing complex scenarios that require both empathy and objectivity
-- Situations requiring balanced assessment of subjective and objective criteria
-- Performance reviews that need both self-reflection and external evaluation
-- Creative processes that benefit from iterative refinement
+### Critical Thinking Framework
+#### 1. Universal Intellectual Standards (The 'Critic's Checklist')
+The Critic must evaluate the Actor's input against these standards:
+- Clarity: Is the point stated clearly? Is it free from ambiguity?
+- Accuracy: Is the claim true? Can it be verified by evidence?
+- Precision: Is it specific enough? Are details provided?
+- Relevance: How does this relate to the core problem?
+- Depth: Does it address the complexities and underlying issues?
+- Breadth: Are there other perspectives or counter-arguments considered?
+- Logic: Does the conclusion follow from the premises?
+- Significance: Is this the most important factor to consider?
+- Fairness: Is the assessment unbiased and empathetic to all stakeholders?
 
-Key features:
-- Alternates between actor (performer) and critic (evaluator) perspectives
-- Tracks rounds of dual-perspective analysis
-- Allows for multiple rounds of actor-critic dialogue
-- Balances empathetic understanding with objective analysis
-- Generates nuanced, multi-dimensional assessments
-- Provides actionable feedback for improvement
+#### 2. Elements of Thought (The 'Actor's Guide')
+The Actor should articulate their position by identifying:
+- Purpose: What is the goal of this action or decision?
+- Question at Issue: What specific problem is being addressed?
+- Information: What data, facts, or experiences are being used?
+- Inferences/Conclusions: What interpretations are being made?
+- Concepts: What theories, definitions, or laws govern this thinking?
+- Assumptions: What is being taken for granted?
+- Implications/Consequences: What happens if this line of thought is followed?
+- Points of View: From what perspective are we looking at this?
 
-Parameters explained:
-- content: Your current analysis content from the specified role perspective
-- role: Either "actor" (empathetic/creative viewpoint) or "critic" (analytical/evaluative viewpoint)
-- nextRoundNeeded: True if another round of actor-critic dialogue is needed
-- thoughtNumber: Current thought number in the sequence (increments with each thought)
-- totalThoughts: Total number of thoughts planned (must be odd and >= 3)
-
-Actor perspective should include:
-* Understanding intentions, creative choices, emotional context, challenges faced
-* Self-reflection on performance and decision-making process
-* Explanation of creative vision and goals
-
-Critic perspective should include:
-* Technical execution analysis, effectiveness evaluation
-* Audience impact assessment, comparative analysis
-* Objective feedback and improvement suggestions
-
-You should:
-1. Start with either actor or critic perspective
-2. Alternate between perspectives to maintain balance
-3. Continue rounds until comprehensive analysis is achieved
-4. Focus on relevant performance aspects
-5. Generate balanced assessments that honor both perspectives
-6. Provide constructive, actionable feedback
-7. Only set nextRoundNeeded to false when analysis is complete`,
+### Workflow
+1. Start with either Actor or Critic.
+2. Alternate perspectives to maintain a balanced, self-correcting dialogue.
+3. Explicitly state assumptions and evidence in each step.
+4. Set nextRoundNeeded to false ONLY when a robust, multi-dimensional consensus or final evaluation is reached.`,
   inputSchema: {
     type: "object",
     properties: {
@@ -205,6 +209,21 @@ You should:
         type: "integer",
         description: "Total number of thoughts planned (must be odd and >= 3)",
         minimum: 3
+      },
+      assumptions: {
+        type: "array",
+        items: { type: "string" },
+        description: "Key assumptions being made in this thought"
+      },
+      evidence: {
+        type: "array",
+        items: { type: "string" },
+        description: "Data, facts, or observations supporting this thought"
+      },
+      standardsApplied: {
+        type: "array",
+        items: { type: "string" },
+        description: "Intellectual standards (Clarity, Logic, etc.) applied in this thought (primarily for Critics)"
       }
     },
     required: ["content", "role", "nextRoundNeeded", "thoughtNumber", "totalThoughts"]
